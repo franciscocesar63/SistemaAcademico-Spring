@@ -6,6 +6,7 @@
 package br.com.cesarfilho.sistemaacademico.controller;
 
 import br.com.cesarfilho.sistemaacademico.dto.LoginForm;
+import br.com.cesarfilho.sistemaacademico.dto.TokenDto;
 import br.com.cesarfilho.sistemaacademico.security.TokenServiceUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class AutenticacaoController {
 
     @Autowired
     private TokenServiceUsuario tokenService;
-    
+
     @PostMapping
     public ResponseEntity<?> autenticar(@RequestBody LoginForm login) {
         UsernamePasswordAuthenticationToken dadosLogin = login.converter();
@@ -40,8 +41,9 @@ public class AutenticacaoController {
 
             String token = tokenService.gerarToken(authentication);
             System.out.println(token);
-            return ResponseEntity.ok().build();
-            
+
+            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+
         } catch (AuthenticationException e) {
             return ResponseEntity.badRequest().build();
         }

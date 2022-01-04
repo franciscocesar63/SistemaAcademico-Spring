@@ -6,6 +6,7 @@
 package br.com.cesarfilho.sistemaacademico.security;
 
 import br.com.cesarfilho.sistemaacademico.model.Usuario;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
@@ -37,6 +38,28 @@ public class TokenServiceUsuario {
                 .setExpiration(dataExpiracao)
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
+    }
+
+    boolean isTokenValido(String token) {
+        try {
+            Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    Long getIdUsuario(String token) {
+
+        try {
+            Claims claim = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+            return Long.parseLong(claim.getSubject());
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 }
