@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author franc
  */
 @RestController
+@RequestMapping("api")
 public class CursoController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class CursoController {
         return curso;
     }
 
-    @RequestMapping(value = "api/cadastrarCurso/", method = RequestMethod.POST)
+    @RequestMapping(value = "/cadastrarCurso/", method = RequestMethod.POST)
     public void cadastrar(@RequestBody Curso json) {
         Curso curso = new Curso();
         curso.setNome(json.getNome());

@@ -5,44 +5,26 @@
  */
 package br.com.cesarfilho.sistemaacademico.model;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  *
  * @author franc
  */
 @Entity
-@Table(name = "telefones")
-public class Telefone implements Serializable {
+public class Perfil implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String numero;
+    private String nome;
 
-
-
-    public Telefone() {
-    }
-
-    public Telefone(String numero) {
-        this.numero = numero;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public Perfil() {
     }
 
     public Long getId() {
@@ -53,10 +35,18 @@ public class Telefone implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "Telefone{" + "id=" + id + ", numero=" + numero + '}';
+    public String getNome() {
+        return nome;
     }
 
-    
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public String getAuthority() {
+        return nome;
+
+    }
+
 }

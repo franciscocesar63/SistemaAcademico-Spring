@@ -36,8 +36,6 @@ public class Endereco implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
 
     public String getRua() {
         return rua;
@@ -77,6 +75,11 @@ public class Endereco implements Serializable {
 
     public void setComplemento(String complemento) {
         this.complemento = complemento;
+    }
+
+    @Override
+    public String toString() {
+        return "Endereco{" + "id=" + id + ", rua=" + rua + ", bairro=" + bairro + ", numero=" + numero + ", cep=" + cep + ", complemento=" + complemento + '}';
     }
 
 }

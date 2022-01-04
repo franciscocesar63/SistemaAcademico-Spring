@@ -5,7 +5,6 @@
  */
 package br.com.cesarfilho.sistemaacademico.model;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +23,6 @@ public class Diretor {
     private Long ID;
     @OneToOne
     private Pessoa pessoa;
-    
 
     private String titulacao;
 
@@ -58,6 +56,11 @@ public class Diretor {
 
     public void setID(Long ID) {
         this.ID = ID;
+    }
+
+    @Override
+    public String toString() {
+        return "Diretor{" + "ID=" + ID + ", pessoa=" + pessoa + ", titulacao=" + titulacao + '}';
     }
 
 }

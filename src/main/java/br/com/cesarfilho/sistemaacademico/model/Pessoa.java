@@ -36,6 +36,19 @@ public class Pessoa implements Serializable {
     @OneToMany
     private List<Telefone> telefones;
 
+    @OneToOne
+    private Usuario usuario;
+
+    public Pessoa() {
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     public String getNome() {
         return nome;
@@ -83,6 +96,11 @@ public class Pessoa implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" + "id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", email=" + email + ", endereco=" + endereco + ", telefones=" + telefones + '}';
     }
 
 }
