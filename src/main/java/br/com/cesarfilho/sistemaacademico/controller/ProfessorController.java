@@ -5,15 +5,15 @@
  */
 package br.com.cesarfilho.sistemaacademico.controller;
 
-import br.com.cesarfilho.sistemaacademico.model.Diretor;
 import br.com.cesarfilho.sistemaacademico.model.Endereco;
 import br.com.cesarfilho.sistemaacademico.model.Perfil;
 import br.com.cesarfilho.sistemaacademico.model.Pessoa;
+import br.com.cesarfilho.sistemaacademico.model.Professor;
 import br.com.cesarfilho.sistemaacademico.model.Usuario;
-import br.com.cesarfilho.sistemaacademico.repository.DiretorRepository;
 import br.com.cesarfilho.sistemaacademico.repository.EnderecoRepository;
 import br.com.cesarfilho.sistemaacademico.repository.PerfilRepository;
 import br.com.cesarfilho.sistemaacademico.repository.PessoaRepository;
+import br.com.cesarfilho.sistemaacademico.repository.ProfessorRepository;
 import br.com.cesarfilho.sistemaacademico.repository.TelefoneRepository;
 import br.com.cesarfilho.sistemaacademico.repository.UsuarioRepository;
 import java.util.ArrayList;
@@ -31,11 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("api")
-public class DiretorController {
+public class ProfessorController {
 
     @Autowired
-    private DiretorRepository diretorRepository;
-
+    private ProfessorRepository professorRepository;
+    
     @Autowired
     private EnderecoRepository enderecoRepository;
 
@@ -49,10 +49,10 @@ public class DiretorController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PerfilRepository perfilRepository;
+    private PerfilRepository perfilRepository; 
 
-    @RequestMapping(value = "/cadastrarDiretor/", method = RequestMethod.POST)
-    public void cadastrar(@RequestBody Diretor json) {
+    @RequestMapping(value = "/cadastrarProfessor/", method = RequestMethod.POST)
+    public void cadastrar(@RequestBody Professor json) {
         //salvando endereço
         Endereco endereco = json.getPessoa().getEndereco();
         enderecoRepository.save(endereco);
@@ -65,7 +65,7 @@ public class DiretorController {
         usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 
         //Perfil pré-definido no banco 1-admin 2-diretor 3-coordenador 4-professor 5-aluno 6-user
-        Perfil perfilAluno = perfilRepository.findById(6l).get();
+        Perfil perfilAluno = perfilRepository.findById(4l).get();
         List<Perfil> perfis = new ArrayList<>();
         perfis.add(perfilAluno);
 
@@ -78,7 +78,7 @@ public class DiretorController {
         Pessoa pessoa = json.getPessoa();
         pessoaRepository.save(pessoa);
 
-        diretorRepository.save(json);
+        professorRepository.save(json);
         System.out.println("cadastrado com sucesso");
 
     }
