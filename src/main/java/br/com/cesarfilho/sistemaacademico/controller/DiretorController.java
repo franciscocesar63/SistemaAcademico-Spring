@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,6 +62,7 @@ public class DiretorController {
         enderecoRepository.save(endereco);
 
         json.getPessoa().getTelefones().forEach(t -> {
+            System.out.println("numero: " + t.getNumero());
             telefoneRepository.save(t);
         });
 
@@ -81,5 +86,29 @@ public class DiretorController {
         diretorRepository.save(json);
         System.out.println("cadastrado com sucesso");
 
+    }
+
+    @PostMapping("/diretores")
+    public List<Diretor> getDiretor() {
+        List<Diretor> diretores = new ArrayList<>();
+        diretorRepository.findAll().forEach(c -> {
+            diretores.add(c);
+        });
+
+        return diretores;
+    }
+
+    @DeleteMapping("/deletarDiretor/{id}")
+    public void deleteCursos(@PathVariable Long id) {
+        Diretor diretor = new Diretor();
+        diretor.setID(id);
+        diretorRepository.delete(diretor);
+
+    }
+
+    @PutMapping("/atualizarDiretor/")
+    public void updateCursos(@RequestBody Diretor json) {
+        Diretor diretor = json;
+        diretorRepository.save(diretor);
     }
 }

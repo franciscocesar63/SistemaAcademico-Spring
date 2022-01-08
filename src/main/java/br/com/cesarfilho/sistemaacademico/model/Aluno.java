@@ -6,6 +6,7 @@
 package br.com.cesarfilho.sistemaacademico.model;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,7 @@ public class Aluno implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
     private Pessoa pessoa;
 
     public Aluno() {

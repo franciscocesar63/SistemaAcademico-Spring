@@ -5,6 +5,7 @@
  */
 package br.com.cesarfilho.sistemaacademico.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,7 @@ public class Diretor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
     private Pessoa pessoa;
 
     private String titulacao;

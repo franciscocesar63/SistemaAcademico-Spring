@@ -7,6 +7,7 @@ package br.com.cesarfilho.sistemaacademico.model;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,13 +31,13 @@ public class Pessoa implements Serializable {
 
     private String email;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
     private Endereco endereco;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Telefone> telefones;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
     private Usuario usuario;
 
     public Pessoa() {
