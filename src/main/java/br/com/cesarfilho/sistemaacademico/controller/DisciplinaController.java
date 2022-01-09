@@ -12,7 +12,10 @@ import br.com.cesarfilho.sistemaacademico.repository.DisciplinaRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,23 +35,38 @@ public class DisciplinaController {
     @Autowired
     private CursoRepository cursoRepository;
 
-    @PostMapping("/disciplinas")
-    public List<Disciplina> getCursos() {
-        List<Disciplina> cursos = new ArrayList<>();
-        disciplinaRepository.findAll().forEach(c -> {
-            cursos.add(c);
-        });
-
-        return cursos;
-    }
-
     @RequestMapping(value = "/cadastrarDisciplina/", method = RequestMethod.POST)
     public void cadastrar(@RequestBody Disciplina json) {
         Disciplina disciplina = json;
-        
+
         Curso curso = cursoRepository.findById(json.getCurso().getId()).get();
         disciplina.setCurso(curso);
 
         disciplinaRepository.save(disciplina);
     }
+
+    @PostMapping("/disciplinas")
+    public List<Disciplina> getDisciplinas() {
+        List<Disciplina> disciplinas = new ArrayList<>();
+        disciplinaRepository.findAll().forEach(c -> {
+            disciplinas.add(c);
+        });
+
+        return disciplinas;
+    }
+
+    @DeleteMapping("/deletarDisciplina/{id}")
+    public void deleteDisciplina(@PathVariable Long id) {
+        Disciplina disciplina = new Disciplina();
+        disciplina.setId(id);
+        disciplinaRepository.delete(disciplina);
+
+    }
+
+    @PutMapping("/atualizarDisciplina/")
+    public void updateDisciplina(@RequestBody Disciplina json) {
+        Disciplina disciplina = json;
+        disciplinaRepository.save(disciplina);
+    }
+
 }

@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +39,7 @@ public class ProfessorController {
 
     @Autowired
     private ProfessorRepository professorRepository;
-    
+
     @Autowired
     private EnderecoRepository enderecoRepository;
 
@@ -49,7 +53,7 @@ public class ProfessorController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PerfilRepository perfilRepository; 
+    private PerfilRepository perfilRepository;
 
     @RequestMapping(value = "/cadastrarProfessor/", method = RequestMethod.POST)
     public void cadastrar(@RequestBody Professor json) {
@@ -81,5 +85,31 @@ public class ProfessorController {
         professorRepository.save(json);
         System.out.println("cadastrado com sucesso");
 
+    }
+
+    @PostMapping("/professores")
+    public List<Professor> getProfessor() {
+        List<Professor> professores = new ArrayList<>();
+        professorRepository.findAll().forEach(c -> {
+            professores.add(c);
+        });
+
+        return professores;
+    }
+
+    @DeleteMapping("/deletarProfessor/{id}")
+    public void deleteProfessor(@PathVariable Long id) {
+        Professor professor = new Professor();
+        professor.setID(id);
+        professorRepository.delete(professor);
+
+    }
+
+    @PutMapping("/atualizarProfessor/")
+    public void updateProfessor(@RequestBody Professor json) {
+        String criptografada = new BCryptPasswordEncoder().encode(json.getPessoa().getUsuario().getSenha());
+        json.getPessoa().getUsuario().setSenha(criptografada);
+        Professor professor = json;
+        professorRepository.save(professor);
     }
 }

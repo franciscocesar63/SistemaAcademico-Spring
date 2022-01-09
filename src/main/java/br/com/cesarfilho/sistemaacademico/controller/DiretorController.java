@@ -99,7 +99,7 @@ public class DiretorController {
     }
 
     @DeleteMapping("/deletarDiretor/{id}")
-    public void deleteCursos(@PathVariable Long id) {
+    public void deleteDiretor(@PathVariable Long id) {
         Diretor diretor = new Diretor();
         diretor.setID(id);
         diretorRepository.delete(diretor);
@@ -107,7 +107,9 @@ public class DiretorController {
     }
 
     @PutMapping("/atualizarDiretor/")
-    public void updateCursos(@RequestBody Diretor json) {
+    public void updateDiretor(@RequestBody Diretor json) {
+        String criptografada = new BCryptPasswordEncoder().encode(json.getPessoa().getUsuario().getSenha());
+        json.getPessoa().getUsuario().setSenha(criptografada);
         Diretor diretor = json;
         diretorRepository.save(diretor);
     }

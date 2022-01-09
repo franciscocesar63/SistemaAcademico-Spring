@@ -80,4 +80,9 @@ public class Curso implements Serializable {
         this.disciplinas = disciplinas;
     }
 
+    @Override
+    public String toString() {
+        return "Curso{" + "id=" + id + ", nome=" + nome + ", area=" + area + ", turmas=" + turmas + ", disciplinas=" + disciplinas + '}';
+    }
+
 }

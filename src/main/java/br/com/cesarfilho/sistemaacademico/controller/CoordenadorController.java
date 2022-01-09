@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,7 +53,7 @@ public class CoordenadorController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PerfilRepository perfilRepository; 
+    private PerfilRepository perfilRepository;
 
     @RequestMapping(value = "/cadastrarCoordenador/", method = RequestMethod.POST)
     public void cadastrar(@RequestBody Coordenador json) {
@@ -82,4 +86,31 @@ public class CoordenadorController {
         System.out.println("cadastrado com sucesso");
 
     }
+
+    @PostMapping("/coordenadores")
+    public List<Coordenador> getCoordenador() {
+        List<Coordenador> coordenadores = new ArrayList<>();
+        coordenadorRepository.findAll().forEach(c -> {
+            coordenadores.add(c);
+        });
+
+        return coordenadores;
+    }
+
+    @DeleteMapping("/deletarCoordenador/{id}")
+    public void deleteCoordenador(@PathVariable Long id) {
+        Coordenador coordenador = new Coordenador();
+        coordenador.setID(id);
+        coordenadorRepository.delete(coordenador);
+
+    }
+
+    @PutMapping("/atualizarCoordenador/")
+    public void updateCoordenador(@RequestBody Coordenador json) {
+        String criptografada = new BCryptPasswordEncoder().encode(json.getPessoa().getUsuario().getSenha());
+        json.getPessoa().getUsuario().setSenha(criptografada);
+        Coordenador coordenador = json;
+        coordenadorRepository.save(coordenador);
+    }
+
 }
